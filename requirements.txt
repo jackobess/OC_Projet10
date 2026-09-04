@@ -11,5 +11,5 @@ requests==2.32.3
 streamlit-feedback==0.1.4
 pymupdf>=1.22.0
 pillow>=9.0.0
-easyocr
-tqdm
+easyocr==1.7.2
+tqdm==4.70.0
