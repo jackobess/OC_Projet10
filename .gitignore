@@ -48,3 +48,7 @@ data/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Fichiers de testing
+jbtesting/
+ocr_txt/

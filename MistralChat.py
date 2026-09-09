@@ -1,4 +1,4 @@
-# MistralChat.py (version RAG)
+# MistralChat.py (version RAG)     => streamlit run MistralChat.py
 import streamlit as st
 import os
 import logging
