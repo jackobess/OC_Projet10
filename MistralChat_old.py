@@ -12,14 +12,11 @@ try:
         MISTRAL_API_KEY, MODEL_NAME, SEARCH_K,
         APP_TITLE, NAME
     )
-    from utils.vector_store import VectorStoreManager
+    from utils.vector_store_old import VectorStoreManager
 except ImportError as e:
     st.error(f"Erreur d'importation: {e}. Vérifiez la structure de vos dossiers et les fichiers dans 'utils'.")
     st.stop()
 
-import logfire
-logfire.configure()
-logfire.instrument_requests()
 
 # --- Configuration du Logging ---
 # Note: Streamlit peut avoir sa propre gestion de logs. Configurer ici est une bonne pratique.
@@ -69,21 +66,17 @@ vector_store_manager = get_vector_store_manager()
 
 # --- Prompt Système pour RAG ---
 # Adaptez ce prompt selon vos besoins
-SYSTEM_PROMPT = """Tu es 'NBA Analyst AI', un assistant expert sur la ligue de basketball NBA.
+SYSTEM_PROMPT = f"""Tu es 'NBA Analyst AI', un assistant expert sur la ligue de basketball NBA.
 Ta mission est de répondre aux questions des fans en animant le débat.
 
-QUESTION DU FAN: {question}
-
-CONTEXTE PERTINENT (extrait de la base de connaissances):
 ---
-{context_str}
+{{context_str}}
 ---
 
-Règles de réponse :
-1. Essaye de répondre uniquement en te basant sur le CONTEXTE fourni ci-dessus.
-2. Si le CONTEXTE ne contient pas l'information demandée, réponds:
-  - Que les infos ne sont pas disponibles dans la base de connaissances de ce RAG.
-  - Tu peux ensuite donner des informations générales sur la NBA si tu les connais, mais précise que ce n'est pas issu du CONTEXTE."""
+QUESTION DU FAN:
+{{question}}
+
+RÉPONSE DE L'ANALYSTE NBA:"""
 
 
 # --- Initialisation de l'historique de conversation ---
@@ -94,28 +87,29 @@ if "messages" not in st.session_state:
 # --- Fonctions ---
 
 def generer_reponse(prompt_messages: list[ChatMessage]) -> str:
+    """
+    Envoie le prompt (qui inclut maintenant le contexte) à l'API Mistral.
+    """
     if not prompt_messages:
-        logging.warning("Tentative de génération de réponse avec un prompt vide.")
-        return "Je ne peux pas traiter une demande vide."
+         logging.warning("Tentative de génération de réponse avec un prompt vide.")
+         return "Je ne peux pas traiter une demande vide."
     try:
-        with logfire.span("mistral_generation", model=model, n_messages=len(prompt_messages)) as span:
-            span.set_attribute("full_prompt", prompt_messages[0].content)
-            logging.info(f"Appel à l'API Mistral modèle '{model}' avec {len(prompt_messages)} message(s).")
-            response = client.chat(
-                model=model,
-                messages=prompt_messages,
-                temperature=0.1,
-            )
-            if response.choices and len(response.choices) > 0:
-                answer = response.choices[0].message.content
-                span.set_attribute("response_preview", answer[:200])
-                if hasattr(response, "usage"):
-                    span.set_attribute("tokens_used", response.usage.total_tokens)
-                logging.info("Réponse reçue de l'API Mistral.")
-                return answer
-            else:
-                logging.warning("L'API n'a pas retourné de choix valide.")
-                return "Désolé, je n'ai pas pu générer de réponse valide pour le moment."
+        logging.info(f"Appel à l'API Mistral modèle '{model}' avec {len(prompt_messages)} message(s).")
+        # Log le contenu du prompt (peut être long) - commenter si trop verbeux
+        # logging.debug(f"Prompt envoyé à l'API: {prompt_messages}")
+
+        response = client.chat(
+            model=model,
+            messages=prompt_messages,
+            temperature=0.1, # Température basse pour des réponses factuelles basées sur le contexte
+            # top_p=0.9,
+        )
+        if response.choices and len(response.choices) > 0:
+            logging.info("Réponse reçue de l'API Mistral.")
+            return response.choices[0].message.content
+        else:
+            logging.warning("L'API n'a pas retourné de choix valide.")
+            return "Désolé, je n'ai pas pu générer de réponse valide pour le moment."
     except Exception as e:
         st.error(f"Erreur lors de l'appel à l'API Mistral: {e}")
         logging.exception("Erreur API Mistral pendant client.chat")
@@ -148,14 +142,9 @@ if prompt := st.chat_input(f"Posez votre question sur la {NAME}..."):
 
     # 3. Rechercher le contexte dans le Vector Store
     try:
-        with logfire.span("retrieval", question=prompt, k=SEARCH_K) as span:
-            logging.info(f"Recherche de contexte pour la question: '{prompt}' avec k={SEARCH_K}")
-            search_results = vector_store_manager.search(prompt, k=SEARCH_K)
-            span.set_attribute("n_chunks_found", len(search_results))
-            span.set_attribute("scores", [round(r['score'], 1) for r in search_results])
-#            span.set_attribute("sources", [r['metadata'].get('source', '?') for r in search_results])
-            span.set_attribute("chunks_preview", [f"{r['metadata'].get('source', '?')}: {r['text'][:200]}" for r in search_results])
-            logging.info(f"{len(search_results)} chunks trouvés dans le Vector Store.")
+        logging.info(f"Recherche de contexte pour la question: '{prompt}' avec k={SEARCH_K}")
+        search_results = vector_store_manager.search(prompt, k=SEARCH_K)
+        logging.info(f"{len(search_results)} chunks trouvés dans le Vector Store.")
     except Exception as e:
         st.error(f"Une erreur est survenue lors de la recherche d'informations pertinentes: {e}")
         logging.exception(f"Erreur pendant vector_store_manager.search pour la query: {prompt}")

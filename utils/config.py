@@ -15,10 +15,13 @@ if not MISTRAL_API_KEY:
 # --- Modèles Mistral ---
 EMBEDDING_MODEL = "mistral-embed"
 MODEL_NAME = "mistral-small-latest" # Ou un autre modèle comme mistral-large-latest
+CLEANING_MODEL = "mistral-small-latest" # Modèle pour le nettoyage de texte
+MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
 
 # --- Configuration de l'Indexation ---
 # INPUT_DATA_URL = os.getenv("INPUT_DATA_URL") # Décommentez si vous utilisez une URL
-INPUT_DIR = "inputs"                # Dossier pour les données sources après extraction
+INPUT_DIR = "inputs"                # Dossier pour les données sources
+INPUT_TXT_DIR = "inputs_txt"                # Dossier pour les données sources après extraction
 VECTOR_DB_DIR = "vector_db"         # Dossier pour stocker l'index Faiss et les chunks
 FAISS_INDEX_FILE = os.path.join(VECTOR_DB_DIR, "faiss_index.idx")
 DOCUMENT_CHUNKS_FILE = os.path.join(VECTOR_DB_DIR, "document_chunks.pkl")

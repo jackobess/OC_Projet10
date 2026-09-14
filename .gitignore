@@ -28,8 +28,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-#ajout jb
-vector_db/
 
 # Fichiers de logs
 *.log
@@ -49,6 +47,9 @@ data/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Fichiers de testing
+# Ajout jb
+vector_db/
+vector_db_old/
 jbtesting/
 ocr_txt/
+inputs_txt/

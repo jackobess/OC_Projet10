@@ -24,6 +24,7 @@ from langchain_mistralai import ChatMistralAI, MistralAIEmbeddings
 from ragas import evaluate
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
+from ragas.run_config import RunConfig
 from ragas.metrics import (
     faithfulness,
     answer_relevancy,
@@ -34,7 +35,7 @@ from ragas.metrics import (
 
 from utils.config import MISTRAL_API_KEY, MODEL_NAME, SEARCH_K
 from utils.vector_store import VectorStoreManager
-from ragas_dataset_1 import RAGAS_DATASET
+from ragas_dataset import RAGAS_DATASET
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -42,14 +43,18 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 SYSTEM_PROMPT = """Tu es 'NBA Analyst AI', un assistant expert sur la ligue de basketball NBA.
 Ta mission est de répondre aux questions des fans en animant le débat.
 
+QUESTION DU FAN: {question}
+
+CONTEXTE PERTINENT (extrait de la base de connaissances):
 ---
 {context_str}
 ---
 
-QUESTION DU FAN:
-{question}
-
-RÉPONSE DE L'ANALYSTE NBA:"""
+Règles de réponse :
+1. Essaye de répondre uniquement en te basant sur le CONTEXTE fourni ci-dessus.
+2. Si le CONTEXTE ne contient pas l'information demandée, réponds:
+  - Que les infos ne sont pas disponibles dans la base de connaissances de ce RAG.
+  - Tu peux ensuite donner des informations générales sur la NBA si tu les connais, mais précise que ce n'est pas issu du CONTEXTE."""
 
 
 def run_rag_pipeline(vector_store: VectorStoreManager, client: MistralClient, question: str):
@@ -140,6 +145,7 @@ def main():
         metrics=[faithfulness, answer_relevancy, context_precision, context_recall, answer_correctness],
         llm=ragas_llm,
         embeddings=ragas_embeddings,
+        run_config=RunConfig(max_workers=3)
     )
 
     scores_df = result.to_pandas()
