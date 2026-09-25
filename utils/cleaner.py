@@ -2,12 +2,6 @@
 """
 Étape de nettoyage du pipeline : Pydantic AI + Mistral, document par document.
 
-IMPORTANT (choix d'architecture) :
-Le provider Mistral natif de pydantic-ai (`pydantic_ai.models.mistral.MistralModel`)
-dépend de mistralai>=1.2.5, incompatible avec le pin actuel du projet (mistralai==0.4.2,
-requis par langchain==0.3.23). Pour ne pas casser ça, on passe par `OpenAIModel` pointé
-sur le endpoint Mistral (compatible API OpenAI) : ça ne touche pas au SDK mistralai,
-donc aucun conflit avec vector_store.py qui utilise encore MistralClient (ancien SDK).
 """
 import logging
 from pathlib import Path

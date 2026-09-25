@@ -48,8 +48,7 @@ data/
 .ipynb_checkpoints
 
 # Ajout jb
-vector_db/
-vector_db_old/
+vector_db*/
 jbtesting/
 ocr_txt/
-inputs_txt/
+inputs_txt*/

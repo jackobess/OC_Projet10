@@ -1,4 +1,6 @@
 # utils/data_loader.py
+# OCR + extraction de texte + parsing en RawDocument (Pydantic) + sauvegarde en .txt
+
 import os
 import requests
 import zipfile
@@ -216,6 +218,8 @@ def load_and_parse_files(input_dir: str) -> List[RawDocument]:
     if not input_path.is_dir():
         logging.error(f"Le répertoire d'entrée '{input_dir}' n'existe pas.")
         return []
+    
+    Path(INPUT_TXT_DIR).mkdir(parents=True, exist_ok=True)
 
     logging.info(f"Parcours du répertoire source: {input_dir}")
     for file_path in input_path.rglob("*.*"):
@@ -233,12 +237,12 @@ def load_and_parse_files(input_dir: str) -> List[RawDocument]:
                 extracted_content = extract_text_from_docx(str(file_path))
             elif ext == ".txt":
                 extracted_content = extract_text_from_txt(str(file_path))
-            elif ext == ".csv":
-                extracted_content = extract_text_from_csv(str(file_path))
-            elif ext in [".xlsx", ".xls"]:
-                extracted_content = extract_text_from_excel(str(file_path))
+#            elif ext == ".csv":
+#                extracted_content = extract_text_from_csv(str(file_path))
+#            elif ext in [".xlsx", ".xls"]:
+#                extracted_content = extract_text_from_excel(str(file_path))            # fichier excel géré par load_excel_to_db
             else:
-                logging.warning(f"Type de fichier non supporté ignoré: {relative_path}")
+                logging.warning(f"Type de fichier non traité par ce loader: {relative_path}")
                 continue
  
             if not extracted_content:

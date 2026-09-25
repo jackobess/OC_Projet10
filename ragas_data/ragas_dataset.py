@@ -22,22 +22,22 @@ RAGAS_DATASET = [
     {
         "question": "Quel joueur a le meilleur pourcentage de réussite à 3 points sur la saison, "
                     "parmi ceux ayant tenté au moins 100 tirs à 3 points ?",
-        "ground_truth": "Seth Curry (CHA), avec 45.6% de réussite à 3 points sur 184 tentatives.",
+        "ground_truth": "Seth Curry, avec 45.6% de réussite.",
         "category": "chiffree",
     },
     {
         "question": "Quel joueur a marqué le plus de points sur la saison régulière ?",
-        "ground_truth": "Shai Gilgeous-Alexander (OKC), avec 2485 points sur la saison.",
+        "ground_truth": "Shai Gilgeous-Alexander, avec 2485 points sur la saison.",
         "category": "chiffree",
     },
     {
         "question": "Quel joueur a pris le plus de rebonds sur la saison ?",
-        "ground_truth": "Ivica Zubac (LAC), avec 1008 rebonds sur la saison.",
+        "ground_truth": "Ivica Zubac, avec 1008 rebonds sur la saison.",
         "category": "chiffree",
     },
     {
-        "question": "Quel joueur a le plus de passes décisives sur la saison ?",
-        "ground_truth": "Trae Young (ATL), avec 882 passes décisives sur la saison.",
+        "question": "Quels sont les 3 meilleurs passeurs décisifs de la saison ?",
+        "ground_truth": "Trae Young, avec 882 passes décisives, suivi de Nikola Jokic avec 714 et de James Harden avec 687.",
         "category": "chiffree",
     },
 
@@ -58,7 +58,7 @@ RAGAS_DATASET = [
     # --- Simples (Reddit) : réponse dans un/des posts ---
     {
         "question": "Quelles équipes ont le plus impressionné lors des playoffs ?",
-        "ground_truth": "D'apres les commentaires, les plus impressionnants sont les Wolwes (Minnesota) et les Indiana Pacers",
+        "ground_truth": "D'apres les commentaires, les plus impressionnants sont les Wolwes (Minnesota) et les Indiana Pacers dans une ùmoindre mesure.",
         "category": "simple",
     },
     {
@@ -80,13 +80,11 @@ RAGAS_DATASET = [
         "category": "complexe",
     },
 
-    # --- Bruitée : cible le chunk où le post Reddit est mélangé à la pub Xometry (voir AUDIT_REPORT.md §5) ---
+    # --- Bruitée : cible le chunk où le post Reddit est mélangé à la pub Xometry  ---
     {
         "question": "Selon l'auteur du post 'Who are teams in the playoffs that have impressed you?', "
                     "quel duo de jeunes ailiers du Magic cite-t-il comme son duo préféré de la ligue ?",
-        "ground_truth": "Paolo (Banchero) et Franz (Wagner), sont cités par l'auteur du post comme son duo "
-                        "de jeunes ailiers préféré de la ligue, pour leur adresse au tir et leur activité "
-                        "défensive.",
+        "ground_truth": "Paolo (Banchero) et Franz (Wagner)",
         "category": "bruitee",
     },
 ]

@@ -5,14 +5,13 @@ Modèles Pydantic qui valident chaque étape du pipeline de préparation des don
     extraction brute        -> RawDocument
     nettoyage (Pydantic AI) -> CleanedText
     chunking                -> TextChunk
-    embedding                -> EmbeddedChunk
+    embedding               -> EmbeddedChunk
 """
 from __future__ import annotations
 
 from typing import List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-
 
 class DocumentMetadata(BaseModel):
     """Métadonnées communes à un document / chunk. `extra='allow'` pour rester compatible
@@ -25,7 +24,7 @@ class DocumentMetadata(BaseModel):
     category: str
     full_path: str
     sheet: Optional[str] = None
-
+    saison: Optional[str] = None   # <-- ajout
 
 class RawDocument(BaseModel):
     """Document tel que sorti de data_loader.py, avant tout traitement."""
@@ -39,7 +38,6 @@ class RawDocument(BaseModel):
         if not v.strip():
             raise ValueError("page_content vide après strip()")
         return v
-
 
 class CleanedText(BaseModel):
     """Sortie de l'étape de nettoyage (Pydantic AI). Un objet par RawDocument."""
@@ -56,7 +54,6 @@ class CleanedText(BaseModel):
             raise ValueError("cleaned_content vide après nettoyage")
         return v
 
-
 class TextChunk(BaseModel):
     """Chunk validé avant embedding."""
 
@@ -72,7 +69,6 @@ class TextChunk(BaseModel):
         if not v.strip():
             raise ValueError("chunk text vide")
         return v
-
 
 class EmbeddedChunk(BaseModel):
     """Chunk + vecteur, validé juste avant écriture dans Faiss."""

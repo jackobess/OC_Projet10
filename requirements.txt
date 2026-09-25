@@ -11,7 +11,7 @@ requests==2.32.3
 streamlit-feedback==0.1.4
 pymupdf>=1.22.0
 pillow>=9.0.0
-easyocr==1.7.2
+# easyocr==1.7.2  # remplacé par rapidocr-onnxruntime, plus utilisé dans le code
 tqdm==4.70.0
 ragas==0.2.15
 datasets==3.2.0
@@ -20,3 +20,7 @@ orjson<3.11
 pydantic-ai==2.42.0
 rapidocr-onnxruntime==1.2.3
 logfire==5.0.0
+sqlalchemy==2.0.52
+langchain-community==0.3.21
+numpy==2.5.2
+pydantic==2.13.5
