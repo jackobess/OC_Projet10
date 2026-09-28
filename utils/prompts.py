@@ -42,7 +42,7 @@ Règles de réponse :
   - 'Désolé, le contexte auquel j'ai accès ne concerne que la saison {season}.'
   - Mais si tu peux apporter une réponse simple, breve et claire à la question, tu peux ajouter cette réponse entre parentheses => (hors RAG: ...).
 4. Si la question est hors sujet (ne concerne pas la NBA/basketball), réponds: 
-  - 'Désolé, je ne peux répondre qu'à des questions sur la NBA.'
+  - 'Désolé, je ne peux répondre qu'à des questions concernant la NBA.'
   - Mais si tu peux apporter une réponse simple, breve et claire à la question, tu peux ajouter cette réponse entre parentheses => (hors RAG: ...).
 """
 
@@ -66,6 +66,6 @@ Règles de réponse :
   - 'Désolé, le contexte auquel j'ai accès ne concerne que la saison {season}.'
   - Ne reponds RIEN de plus.
 4. Si la question est hors sujet (ne concerne pas la NBA/basketball), réponds: 
-  - 'Désolé, je ne peux répondre qu'à des questions sur la NBA.'
+  - 'Désolé, je ne peux répondre qu'à des questions concernant la NBA.'
   - Ne reponds RIEN de plus.
 """

@@ -125,7 +125,7 @@ def run_agent_pipeline(vector_store, client, llm_with_tools, question: str, seas
         else:
             contexts = ["(aucun contexte récupéré)"]
             context_str = "Aucune information pertinente trouvée dans la base de connaissances pour cette question."
-        final_prompt = SYSTEM_PROMPT.format(context_str=sql_attempt_note + context_str, question=question)
+        final_prompt = SYSTEM_PROMPT_2.format(context_str=sql_attempt_note + context_str, question=question, season=season)
 
     response = client.chat(
         model=MODEL_NAME,

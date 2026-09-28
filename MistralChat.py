@@ -1,8 +1,6 @@
-# MistralChat2.py          => streamlit run MistralChat2.py -- --season 2024-25
+# MistralChat.py          => streamlit run MistralChat.py -- --season 2024-25
 #
-# Version LangChain : remplace le SDK natif mistralai (MistralClient/ChatMessage)
-# par langchain_mistralai.ChatMistralAI pour la génération de réponse finale.
-# Le reste (routage SQL, RAG, Logfire) est inchangé par rapport à MistralChat.py.
+# Version LangChain + sql_tool + RAG
 
 import streamlit as st
 import streamlit.components.v1 as components

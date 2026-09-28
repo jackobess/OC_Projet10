@@ -1,4 +1,5 @@
 # run_all_steps.py         => python run_all_steps.py [--data-url URL]
+# execution de toutes les étapes de préparation des données et d'indexation
 
 import argparse
 import subprocess
