@@ -83,35 +83,36 @@ automatiquement, non versionné) — rien à ajouter dans `.env`.
 
 ```
 .
-├── inputs/                     # Documents sources
+├── docs/*.*                     # Documentation du projet
+├── inputs/                      # Documents sources
 │   ├── Reddit 1.pdf … Reddit 4.pdf
-│   ├── regular NBA.xlsx        # Statistiques NBA (saison courante)
-│   └── data_info.ini           # Métadonnées à injecter (ex: saison)
+│   ├── regular NBA.xlsx         # Statistiques NBA (saison courante)
+│   └── data_info.ini            # Métadonnées à injecter (ex: saison)
 ├── ragas_data/
-│   ├── ragas_dataset.py        # Jeu de questions/réponses de référence pour RAGAS
-│   └── ragas_results.xlsx      # Résultats détaillés de la dernière évaluation
+│   ├── ragas_dataset.py         # Jeu de questions/réponses de référence pour RAGAS
+│   └── ragas_results.xlsx       # Résultats détaillés de la dernière évaluation
 ├── utils/
 │   ├── config.py                # Configuration centrale de l'application
 │   ├── data_loader.py           # Extraction de texte (PDF/OCR, DOCX, TXT)
-│   ├── cleaner.py                # Nettoyage des documents (agent Pydantic AI / Mistral)
-│   ├── vector_store.py           # Gestion de l'index FAISS et recherche sémantique
-│   ├── sql_tool.py               # Outil LangChain de requêtage SQL (nba_sql_tool)
-│   ├── prompts.py                # Prompts système (RAG, SQL)
-│   └── schemas.py                # Modèles Pydantic partagés
+│   ├── cleaner.py               # Nettoyage des documents (agent Pydantic AI / Mistral)
+│   ├── vector_store.py          # Gestion de l'index FAISS et recherche sémantique
+│   ├── sql_tool.py              # Outil LangChain de requêtage SQL (nba_sql_tool)
+│   ├── prompts.py               # Prompts système (RAG, SQL)
+│   └── schemas.py               # Modèles Pydantic partagés
 ├── vector_db/                   # Généré, non versionné (régénérable via les steps)
-│   ├── cleaned_documents.pkl     # Sortie step1 / entrée step2
-│   ├── faiss_index.idx           # Index vectoriel FAISS
-│   ├── document_chunks.pkl       # Chunks associés à l'index
-│   └── nba.db                    # Base SQLite des statistiques (sql_tool)
+│   ├── cleaned_documents.pkl    # Sortie step1 / entrée step2
+│   ├── faiss_index.idx          # Index vectoriel FAISS
+│   ├── document_chunks.pkl      # Chunks associés à l'index
+│   └── nba.db                   # Base SQLite des statistiques (sql_tool)
 ├── step1_prepare_data.py        # Extraction + nettoyage des documents texte
 ├── step2_indexer.py             # Chunking + embeddings + index FAISS
 ├── step3_excel_to_db.py         # Chargement des statistiques Excel -> SQLite
 ├── run_all_steps.py             # Enchaîne step1 -> step2 -> step3
 ├── evaluate_ragas.py            # Évaluation RAGAS du pipeline complet
 ├── read_chunks.py               # Utilitaire de debug : inspecter document_chunks.pkl
-├── MistralChat.py                # Application Streamlit (agent RAG + SQL)
+├── MistralChat.py               # Application Streamlit (agent RAG + SQL)
 ├── requirements.txt
-├── .env                          # Clé API Mistral (non versionné)
+├── .env                         # Clé API Mistral (non versionné)
 ├── .gitignore
 └── README.md
 ```
