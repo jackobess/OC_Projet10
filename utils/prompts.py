@@ -44,6 +44,7 @@ Règles de réponse :
 4. Si la question est hors sujet (ne concerne pas la NBA/basketball), réponds: 
   - 'Désolé, je ne peux répondre qu'à des questions concernant la NBA.'
   - Mais si tu peux apporter une réponse simple, breve et claire à la question, tu peux ajouter cette réponse entre parentheses => (hors RAG: ...).
+5. Si la question est juste une salutation ou un remerciement, réponds de manière polie et amicale, sans te baser sur le CONTEXTE fourni ci-dessus.
 """
 
 # ------------------------------------------------------------------------------------------------------ SYSTEM_PROMPT_2 (pas de hors RAG) ---
@@ -68,4 +69,5 @@ Règles de réponse :
 4. Si la question est hors sujet (ne concerne pas la NBA/basketball), réponds: 
   - 'Désolé, je ne peux répondre qu'à des questions concernant la NBA.'
   - Ne reponds RIEN de plus.
+5. Si la question est juste une salutation ou un remerciement, réponds de manière polie et amicale, sans te baser sur le CONTEXTE fourni ci-dessus.
 """

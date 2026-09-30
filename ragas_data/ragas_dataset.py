@@ -72,7 +72,7 @@ RAGAS_DATASET = [
         "category": "complexe",
     },
     
-    # --- Bruitée (Reddit) : présence de publicité, saut de page, etc autour du post concerné ---
+    # --- Bruitée (Reddit) : présence de publicité, saut de page, etc autour des posts concernés ---
     {
         "question": "En quoi les fans considerent Randle comme une révélation cette saison?",
         "ground_truth": "Principalement à cause de son impact physique sur le jeu, son bully ball, ses spin moves, son implication défensive et sa meilleure efficacité à 3pts.",
